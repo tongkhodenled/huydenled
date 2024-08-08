@@ -47,9 +47,39 @@
             border: none;
             cursor: pointer;
         }
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .projects .project-item {
+            flex: 1 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
         .projects img {
-            width: 100px; /* Đặt chiều rộng cho tất cả hình ảnh */
-            height: auto; /* Chiều cao sẽ tự động theo tỉ lệ */
+            width: 100%;
+            height: auto;
+        }
+        .project-item h3 {
+            margin: 10px 0;
+        }
+        .project-item p {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #e74c3c; /* Màu đỏ cho giá */
+        }
+        .project-item button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
         }
         .social-media a {
             display: inline-block;
@@ -82,11 +112,36 @@
         <h2>Các Dự Án</h2>
         <p>Hình ảnh và video của các dự án tiêu biểu sẽ được hiển thị tại đây.</p>
         <div class="projects">
-            <img src="1.jpg" alt="Dự án 1">
-            <img src="2.jpg" alt="Dự án 2">
-            <img src="3.jpg" alt="Dự án 3">
-            <img src="4.jpg" alt="Dự án 4">
-            <img src="6.jpg" alt="Dự án 6">
+            <div class="project-item">
+                <img src="1.jpg" alt="Dự án 1">
+                <h3>Dự án 1</h3>
+                <p>Giá: 100.000 VNĐ</p>
+                <button>Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="2.jpg" alt="Dự án 2">
+                <h3>Dự án 2</h3>
+                <p>Giá: 200.000 VNĐ</p>
+                <button>Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="3.jpg" alt="Dự án 3">
+                <h3>Dự án 3</h3>
+                <p>Giá: 150.000 VNĐ</p>
+                <button>Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="4.jpg" alt="Dự án 4">
+                <h3>Dự án 4</h3>
+                <p>Giá: 180.000 VNĐ</p>
+                <button>Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="6.jpg" alt="Dự án 6">
+                <h3>Dự án 6</h3>
+                <p>Giá: 250.000 VNĐ</p>
+                <button>Đặt Mua</button>
+            </div>
         </div>
     </section>
 
