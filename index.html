@@ -23,7 +23,7 @@
             margin: auto;
             overflow: hidden;
         }
-        #about {
+        #about, #projects, #contact, #social-media {
             margin: 20px 0;
         }
         h1, h2, h3 {
@@ -48,13 +48,19 @@
             cursor: pointer;
         }
         .projects img {
-            width: 100%;
-            height: auto;
+            width: 500px; /* Đặt chiều rộng cho tất cả hình ảnh */
+            height: auto; /* Chiều cao sẽ tự động theo tỉ lệ */
         }
         .social-media a {
             display: inline-block;
             margin: 0 10px;
             text-decoration: none;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
         }
     </style>
 </head>
@@ -75,28 +81,13 @@
     <section id="projects">
         <h2>Các Dự Án</h2>
         <p>Hình ảnh và video của các dự án tiêu biểu sẽ được hiển thị tại đây.</p>
-        <!-- Thêm hình ảnh hoặc video -->
-<style>
-    .projects img {
-        width: 500px; /* Đặt chiều rộng cho tất cả hình ảnh */
-        height: auto; /* Chiều cao sẽ tự động theo tỉ lệ */
-    }
-</style>
-
-<div class="projects">
-    <img src="1.jpg" alt="Dự án 1">
-    <img src="2.jpg" alt="Dự án 2">
-    <img src="3.jpg" alt="Dự án 3">
-    <img src="4.jpg" alt="Dự án 4">
-    <img src="6.jpg" alt="Dự án 6">
-</div>
-.projects img {
-    width: 200px; /* Đặt chiều rộng cho tất cả hình ảnh */
-    height: auto; /* Chiều cao sẽ tự động theo tỉ lệ */
-}
-<link rel="stylesheet" href="style.css">
-
-
+        <div class="projects">
+            <img src="1.jpg" alt="Dự án 1">
+            <img src="2.jpg" alt="Dự án 2">
+            <img src="3.jpg" alt="Dự án 3">
+            <img src="4.jpg" alt="Dự án 4">
+            <img src="6.jpg" alt="Dự án 6">
+        </div>
     </section>
 
     <section id="contact">
@@ -120,7 +111,7 @@
 </div>
 
 <footer>
-    <p style="text-align: center;">&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
+    <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
 </footer>
 
 </body>
