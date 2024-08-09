@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huy Đèn Led</title>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -90,6 +91,15 @@
             text-decoration: none;
             cursor: pointer;
         }
+        #downloadButton {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -161,6 +171,10 @@
             <a href="#">LinkedIn</a>
         </div>
     </section>
+
+    <!-- Thêm nút tải xuống đơn hàng -->
+    <button id="downloadButton" onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
+
 </div>
 
 <footer>
@@ -182,8 +196,6 @@
     </form>
   </div>
 </div>
-
-<button onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
 
 <script>
 // Mở modal
@@ -207,18 +219,48 @@ window.onclick = function(event) {
   }
 }
 
-// Lưu dữ liệu và đóng modal
+// Lưu dữ liệu đơn hàng vào localStorage
 document.getElementById('orderForm').onsubmit = function(event) {
   event.preventDefault();
   
-  // Lấy dữ liệu từ form
   let customerName = document.getElementById('customerName').value;
   let customerPhone = document.getElementById('customerPhone').value;
   let customerAddress = document.getElementById('customerAddress').value;
   let productName = document.getElementById('productName').value;
   let productPrice = document.getElementById('productPrice').value;
   
-  // Tạo đối tượng đơn hàng
   let order = {
     customerName: customerName,
-    customerPhone
+    customerPhone: customerPhone,
+    customerAddress: customerAddress,
+    productName: productName,
+    productPrice: productPrice
+  };
+  
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  orders.push(order);
+  localStorage.setItem('orders', JSON.stringify(orders));
+  
+  modal.style.display = 'none';
+}
+
+// Hàm tải xuống đơn hàng dưới dạng Excel
+function downloadOrders() {
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  
+  if (orders.length === 0) {
+    alert("Không có đơn hàng nào để tải xuống.");
+    return;
+  }
+
+  let wb = XLSX.utils.book_new();
+  let ws = XLSX.utils.json_to_sheet(orders);
+  XLSX.utils.book_append_sheet(wb, ws, "Đơn Hàng");
+
+  XLSX.writeFile(wb, "don_hang.xlsx");
+}
+
+</script>
+
+</body>
+</html>
