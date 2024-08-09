@@ -29,29 +29,6 @@
         h1, h2, h3 {
             color: #333;
         }
-        .contact-form {
-            background: #fff;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .contact-form button {
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .projects {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
         .project-item {
             flex: 1 1 calc(33.333% - 20px);
             box-sizing: border-box;
@@ -59,8 +36,9 @@
             padding: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-bottom: 20px;
         }
-        .project-item img {
+       .project-item img {
             width: 200px; /* Chiều rộng cố định */
             height: auto; /* Chiều cao tự động theo tỷ lệ */
         }
@@ -81,16 +59,36 @@
             font-size: 1em;
             margin-top: 10px;
         }
-        .social-media a {
-            display: inline-block;
-            margin: 0 10px;
-            text-decoration: none;
+        .modal {
+            display: none; /* Ẩn mặc định */
+            position: fixed; /* Định vị cố định */
+            z-index: 1; /* Vị trí trên cùng */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Kích hoạt cuộn khi cần */
+            background-color: rgb(0,0,0); /* Màu nền đen */
+            background-color: rgba(0,0,0,0.4); /* Độ mờ nền */
         }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -116,31 +114,31 @@
                 <img src="1.jpg" alt="Dự án 1">
                 <h3>Dự án 1</h3>
                 <p>Giá: 100.000 VNĐ</p>
-                <button>Đặt Mua</button>
+                <button onclick="openModal('Dự án 1', '100.000 VNĐ')">Đặt Mua</button>
             </div>
             <div class="project-item">
                 <img src="2.jpg" alt="Dự án 2">
                 <h3>Dự án 2</h3>
                 <p>Giá: 200.000 VNĐ</p>
-                <button>Đặt Mua</button>
+                <button onclick="openModal('Dự án 2', '200.000 VNĐ')">Đặt Mua</button>
             </div>
             <div class="project-item">
                 <img src="3.jpg" alt="Dự án 3">
                 <h3>Dự án 3</h3>
                 <p>Giá: 150.000 VNĐ</p>
-                <button>Đặt Mua</button>
+                <button onclick="openModal('Dự án 3', '150.000 VNĐ')">Đặt Mua</button>
             </div>
             <div class="project-item">
                 <img src="4.jpg" alt="Dự án 4">
                 <h3>Dự án 4</h3>
                 <p>Giá: 180.000 VNĐ</p>
-                <button>Đặt Mua</button>
+                <button onclick="openModal('Dự án 4', '180.000 VNĐ')">Đặt Mua</button>
             </div>
             <div class="project-item">
                 <img src="6.jpg" alt="Dự án 6">
                 <h3>Dự án 6</h3>
                 <p>Giá: 250.000 VNĐ</p>
-                <button>Đặt Mua</button>
+                <button onclick="openModal('Dự án 6', '250.000 VNĐ')">Đặt Mua</button>
             </div>
         </div>
     </section>
@@ -169,5 +167,85 @@
     <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
 </footer>
 
+<!-- Modal HTML -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Đặt Mua</h2>
+    <form id="orderForm">
+      <input type="text" id="customerName" placeholder="Họ tên" required><br><br>
+      <input type="text" id="customerPhone" placeholder="Số điện thoại" required><br><br>
+      <input type="text" id="customerAddress" placeholder="Địa chỉ" required><br><br>
+      <input type="hidden" id="productName">
+      <input type="hidden" id="productPrice">
+      <button type="submit">Đặt Mua</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Mở modal
+function openModal(productName, productPrice) {
+  document.getElementById('orderModal').style.display = 'block';
+  document.getElementById('productName').value = productName;
+  document.getElementById('productPrice').value = productPrice;
+}
+
+// Đóng modal
+var modal = document.getElementById('orderModal');
+var span = document.getElementsByClassName('close')[0];
+
+span.onclick = function() {
+  modal.style.display = 'none';
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// Lưu dữ liệu và đóng modal
+document.getElementById('orderForm').onsubmit = function(event) {
+  event.preventDefault();
+  
+  // Lấy dữ liệu từ form
+  let customerName = document.getElementById('customerName').value;
+  let customerPhone = document.getElementById('customerPhone').value;
+  let customerAddress = document.getElementById('customerAddress').value;
+  let productName = document.getElementById('productName').value;
+  let productPrice = document.getElementById('productPrice').value;
+  
+  // Tạo đối tượng đơn hàng
+  let order = {
+    customerName: customerName,
+    customerPhone: customerPhone,
+    customerAddress: customerAddress,
+    productName: productName,
+    productPrice: productPrice
+  };
+  
+  // Lấy dữ liệu từ localStorage và lưu thêm đơn hàng mới
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  orders.push(order);
+  localStorage.setItem('orders', JSON.stringify(orders));
+  
+  // Đóng modal
+  modal.style.display = 'none';
+  
+  alert('Đặt hàng thành công!');
+}
+</script>
+
 </body>
 </html>
+function downloadOrders() {
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  
+  let wb = XLSX.utils.book_new();
+  let ws = XLSX.utils.json_to_sheet(orders);
+  XLSX.utils.book_append_sheet(wb, ws, "Orders");
+
+  XLSX.writeFile(wb, "orders.xlsx");
+}
+<button onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
