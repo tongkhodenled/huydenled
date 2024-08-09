@@ -250,12 +250,9 @@ function downloadOrders() {
         return;
     }
 
+    // Đảm bảo tiêu đề cột đúng với dữ liệu
+    var ws = XLSX.utils.json_to_sheet(orders, {header: ["customerName", "customerPhone", "customerAddress", "productName", "productPrice", "orderTime"]});
     var wb = XLSX.utils.book_new();
-    var ws = XLSX.utils.json_to_sheet(orders);
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
 }
-</script>
-
-</body>
-</html>
