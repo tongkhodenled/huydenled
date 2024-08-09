@@ -38,7 +38,7 @@
             text-align: center;
             margin-bottom: 20px;
         }
-       .project-item img {
+        .project-item img {
             width: 200px; /* Chiều rộng cố định */
             height: auto; /* Chiều cao tự động theo tỷ lệ */
         }
@@ -183,6 +183,8 @@
   </div>
 </div>
 
+<button onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
+
 <script>
 // Mở modal
 function openModal(productName, productPrice) {
@@ -219,33 +221,4 @@ document.getElementById('orderForm').onsubmit = function(event) {
   // Tạo đối tượng đơn hàng
   let order = {
     customerName: customerName,
-    customerPhone: customerPhone,
-    customerAddress: customerAddress,
-    productName: productName,
-    productPrice: productPrice
-  };
-  
-  // Lấy dữ liệu từ localStorage và lưu thêm đơn hàng mới
-  let orders = JSON.parse(localStorage.getItem('orders')) || [];
-  orders.push(order);
-  localStorage.setItem('orders', JSON.stringify(orders));
-  
-  // Đóng modal
-  modal.style.display = 'none';
-  
-  alert('Đặt hàng thành công!');
-}
-</script>
-
-</body>
-</html>
-function downloadOrders() {
-  let orders = JSON.parse(localStorage.getItem('orders')) || [];
-  
-  let wb = XLSX.utils.book_new();
-  let ws = XLSX.utils.json_to_sheet(orders);
-  XLSX.utils.book_append_sheet(wb, ws, "Orders");
-
-  XLSX.writeFile(wb, "orders.xlsx");
-}
-<button onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
+    customerPhone
