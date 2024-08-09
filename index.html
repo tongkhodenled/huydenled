@@ -264,3 +264,54 @@ function downloadOrders() {
 
 </body>
 </html>
+document.getElementById('orderForm').onsubmit = function(event) {
+  event.preventDefault();
+  
+  let customerName = document.getElementById('customerName').value;
+  let customerPhone = document.getElementById('customerPhone').value;
+  let customerAddress = document.getElementById('customerAddress').value;
+  let productName = document.getElementById('productName').value;
+  let productPrice = document.getElementById('productPrice').value;
+
+  // Thêm thời gian đặt hàng
+  let orderTime = new Date();
+  let formattedOrderTime = orderTime.toLocaleString('vi-VN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  
+  let order = {
+    customerName: customerName,
+    customerPhone: customerPhone,
+    customerAddress: customerAddress,
+    productName: productName,
+    productPrice: productPrice,
+    orderTime: formattedOrderTime // Lưu thời gian đặt hàng
+  };
+  
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  orders.push(order);
+  localStorage.setItem('orders', JSON.stringify(orders));
+  
+  modal.style.display = 'none';
+}
+
+// Hàm tải xuống đơn hàng dưới dạng Excel
+function downloadOrders() {
+  let orders = JSON.parse(localStorage.getItem('orders')) || [];
+  
+  if (orders.length === 0) {
+    alert("Không có đơn hàng nào để tải xuống.");
+    return;
+  }
+
+  let wb = XLSX.utils.book_new();
+  let ws = XLSX.utils.json_to_sheet(orders);
+  XLSX.utils.book_append_sheet(wb, ws, "Đơn Hàng");
+
+  XLSX.writeFile(wb, "don_hang.xlsx");
+}
