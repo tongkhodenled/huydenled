@@ -219,7 +219,6 @@ window.onclick = function(event) {
   }
 }
 
-/
 // Lưu dữ liệu đơn hàng vào localStorage
 document.getElementById('orderForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -256,3 +255,4 @@ function downloadOrders() {
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
+}
