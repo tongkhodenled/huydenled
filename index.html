@@ -6,101 +6,7 @@
     <title>Huy Đèn Led</title>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        #about, #projects, #contact, #social-media {
-            margin: 20px 0;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        .project-item {
-            flex: 1 1 calc(33.333% - 20px);
-            box-sizing: border-box;
-            background: #fff;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .project-item img {
-            width: 100%; /* Chiều rộng 100% của phần tử chứa nó */
-            max-width: 300px; /* Chiều rộng tối đa là 300px */
-            height: auto; /* Chiều cao tự động theo tỷ lệ */
-        }
-        .project-item h3 {
-            margin: 10px 0;
-        }
-        .project-item p {
-            margin: 10px 0;
-            font-size: 1.2em;
-            color: #e74c3c; /* Màu đỏ cho giá */
-        }
-        .project-item button {
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 10px;
-        }
-        .modal {
-            display: none; /* Ẩn mặc định */
-            position: fixed; /* Định vị cố định */
-            z-index: 1; /* Vị trí trên cùng */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; /* Kích hoạt cuộn khi cần */
-            background-color: rgb(0,0,0); /* Màu nền đen */
-            background-color: rgba(0,0,0,0.4); /* Độ mờ nền */
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        #downloadButton {
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 20px;
-        }
+        /* CSS của bạn */
     </style>
 </head>
 <body>
@@ -158,18 +64,18 @@ function loadProducts() {
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
-            const projectsContainer = document.getElementById('projectsContainer');
+            const projectsContainer = document.querySelector('.projects');
             projectsContainer.innerHTML = ''; // Xóa nội dung cũ
 
             data.products.forEach(product => {
                 const projectItem = document.createElement('div');
                 projectItem.className = 'project-item';
-                projectItem.innerHTML = `
+                projectItem.innerHTML = 
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
                     <p>Giá: ${product.price}</p>
                     <button onclick="openModal('${product.name}', '${product.price}')">Đặt Mua</button>
-                `;
+                ;
                 projectsContainer.appendChild(projectItem);
             });
         })
@@ -178,6 +84,8 @@ function loadProducts() {
 
 // Gọi hàm để tải sản phẩm khi trang được tải
 window.onload = loadProducts;
+</script>
+
 
 // Mở modal
 function openModal(productName, productPrice) {
@@ -237,3 +145,8 @@ function downloadOrders() {
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
 }
+</script>
+
+</body>
+</html>
+index.html như này.
