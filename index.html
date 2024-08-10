@@ -6,100 +6,7 @@
     <title>Huy Đèn Led</title>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        #about, #projects, #contact, #social-media {
-            margin: 20px 0;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        .project-item {
-            flex: 1 1 calc(33.333% - 20px);
-            box-sizing: border-box;
-            background: #fff;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .project-item img {
-            width: 200px; /* Chiều rộng cố định */
-            height: auto; /* Chiều cao tự động theo tỷ lệ */
-        }
-        .project-item h3 {
-            margin: 10px 0;
-        }
-        .project-item p {
-            margin: 10px 0;
-            font-size: 1.2em;
-            color: #e74c3c; /* Màu đỏ cho giá */
-        }
-        .project-item button {
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 10px;
-        }
-        .modal {
-            display: none; /* Ẩn mặc định */
-            position: fixed; /* Định vị cố định */
-            z-index: 1; /* Vị trí trên cùng */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; /* Kích hoạt cuộn khi cần */
-            background-color: rgb(0,0,0); /* Màu nền đen */
-            background-color: rgba(0,0,0,0.4); /* Độ mờ nền */
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        #downloadButton {
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 20px;
-        }
+        /* CSS của bạn */
     </style>
 </head>
 <body>
@@ -119,58 +26,12 @@
     <section id="projects">
         <h2>Các Dự Án</h2>
         <p>Hình ảnh và video của các dự án tiêu biểu sẽ được hiển thị tại đây.</p>
-        <div class="projects">
-            <div class="project-item">
-                <img src="1.jpg" alt="Dự án 1">
-                <h3>Dự án 1</h3>
-                <p>Giá: 100.000 VNĐ</p>
-                <button onclick="openModal('Dự án 1', '100.000 VNĐ')">Đặt Mua</button>
-            </div>
-            <div class="project-item">
-                <img src="2.jpg" alt="Dự án 2">
-                <h3>Dự án 2</h3>
-                <p>Giá: 200.000 VNĐ</p>
-                <button onclick="openModal('Dự án 2', '200.000 VNĐ')">Đặt Mua</button>
-            </div>
-            <div class="project-item">
-                <img src="3.jpg" alt="Dự án 3">
-                <h3>Dự án 3</h3>
-                <p>Giá: 150.000 VNĐ</p>
-                <button onclick="openModal('Dự án 3', '150.000 VNĐ')">Đặt Mua</button>
-            </div>
-            <div class="project-item">
-                <img src="4.jpg" alt="Dự án 4">
-                <h3>Dự án 4</h3>
-                <p>Giá: 180.000 VNĐ</p>
-                <button onclick="openModal('Dự án 4', '180.000 VNĐ')">Đặt Mua</button>
-            </div>
-            <div class="project-item">
-                <img src="6.jpg" alt="Dự án 6">
-                <h3>Dự án 6</h3>
-                <p>Giá: 250.000 VNĐ</p>
-                <button onclick="openModal('Dự án 6', '250.000 VNĐ')">Đặt Mua</button>
-            </div>
+        <div id="projectsContainer" class="projects">
+            <!-- Các sản phẩm sẽ được hiển thị ở đây -->
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Liên Hệ</h2>
-        <form class="contact-form" action="mailto:email@example.com" method="post" enctype="text/plain">
-            <input type="text" name="name" placeholder="Tên của bạn" required>
-            <input type="email" name="email" placeholder="Email của bạn" required>
-            <textarea name="message" placeholder="Lời nhắn của bạn" rows="5" required></textarea>
-            <button type="submit">Gửi</button>
-        </form>
-    </section>
-
-    <section id="social-media">
-        <h3>Theo Dõi Chúng Tôi</h3>
-        <div class="social-media">
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">LinkedIn</a>
-        </div>
-    </section>
+    <!-- Các phần khác của trang -->
 
     <!-- Thêm nút tải xuống đơn hàng -->
     <button id="downloadButton" onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
@@ -198,6 +59,27 @@
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tải dữ liệu sản phẩm từ file JSON
+    fetch('products.json')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('projectsContainer');
+            data.forEach(product => {
+                const item = document.createElement('div');
+                item.classList.add('project-item');
+                item.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Giá: ${product.price}</p>
+                    <button onclick="openModal('${product.name}', '${product.price}')">Đặt Mua</button>
+                `;
+                container.appendChild(item);
+            });
+        })
+        .catch(error => console.error('Lỗi khi tải sản phẩm:', error));
+});
+
 // Mở modal
 function openModal(productName, productPrice) {
   document.getElementById('orderModal').style.display = 'block';
@@ -256,3 +138,7 @@ function downloadOrders() {
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
 }
+</script>
+
+</body>
+</html>
