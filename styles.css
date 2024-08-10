@@ -85,3 +85,23 @@ header, footer {
     border-radius: 10px;
     margin-top: 20px;
 }
+/* CSS cho nút Đặt Mua */
+.buy-button {
+    background-color: #8B0000; /* Màu đỏ sẫm */
+    color: #FFFFFF; /* Màu chữ trắng */
+    border: 2px solid #5C0000; /* Đường viền màu đỏ sẫm hơn */
+    padding: 10px 20px;
+    border-radius: 8px; /* Bo góc nút */
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Hiệu ứng chuyển tiếp khi hover */
+}
+
+.buy-button:hover {
+    background-color: #A52A2A; /* Màu đỏ nhạt hơn khi hover */
+    border-color: #7C0A0A; /* Đường viền đỏ nhạt hơn khi hover */
+    cursor: pointer;
+}
