@@ -42,14 +42,39 @@
         #adminAccess button:hover {
             background-color: #555;
         }
+        
+        /* CSS cho hình chuông thông báo */
+        #notificationBell {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        /* CSS cho thông báo chuông */
+        #notificationContent {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-radius: 5px;
+            width: 200px;
+        }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Huy Đèn Led</h1>
-    <p>Chuyên cung cấp sỉ lẻ đèn led cho cửa hàng - đại lý - công trình</p>
-    <p>Zalo: 0395.8866.95</p>
+    <p>Chuyên cung cấp sỉ lẻ đèn led cho cửa hàng đại lý công trình</p>
+    <p>Zalo: 0395886695</p>
 </header>
 
 <div class="container">
@@ -99,6 +124,15 @@
     </div>
 </div>
 
+<!-- Thêm hình chuông và thông báo -->
+<div id="notificationBell" onclick="toggleNotification()">
+    🔔
+</div>
+<div id="notificationContent">
+    <h3>Thông Báo</h3>
+    <p id="notificationText"></p>
+</div>
+
 <script>
     function validateAdmin() {
         const password = document.getElementById('adminPassword').value;
@@ -109,6 +143,11 @@
         } else {
             alert('Mật khẩu không chính xác.');
         }
+    }
+
+    function toggleNotification() {
+        const notificationContent = document.getElementById('notificationContent');
+        notificationContent.style.display = notificationContent.style.display === 'block' ? 'none' : 'block';
     }
 
     // Tải dữ liệu từ file JSON và hiển thị sản phẩm
@@ -179,6 +218,10 @@
         // Ẩn modal và hiển thị thông báo cảm ơn
         modal.style.display = 'none';
         document.getElementById('thankYouMessage').style.display = 'block';
+
+        // Cập nhật nội dung thông báo
+        document.getElementById('notificationText').textContent = 'Đơn hàng mới vừa được đặt!';
+        toggleNotification(); // Hiển thị thông báo
     });
 
     // Tải dữ liệu đơn hàng xuống dưới dạng file Excel
