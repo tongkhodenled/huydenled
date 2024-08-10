@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huy Đèn Led</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Huy Đèn Led</h1>
-        <p>Chuyên cung cấp sỉ lẻ đèn led cho cửa hàng đại lý công trình</p>
-        <p>Zalo: 0395886695</p>
-    </header>
 
-    <section id="hero">
-        <h2>Chào mừng đến với Huy Đèn Led</h2>
-        <p>Đèn led chất lượng cao - Giá tốt nhất thị trường</p>
-        <a href="#contact" class="btn">Liên hệ ngay</a>
-    </section>
+<header>
+    <h1>Huy Đèn Led</h1>
+    <p>Chuyên cung cấp sỉ lẻ đèn led cho cửa hàng đại lý công trình</p>
+    <p>Zalo: 0395886695</p>
+</header>
 
+<div class="container">
     <section id="about">
         <h2>Về Chúng Tôi</h2>
         <p>Huy Đèn Led chuyên cung cấp các sản phẩm đèn led chất lượng cao cho cửa hàng, đại lý và công trình. Với kinh nghiệm nhiều năm trong ngành, chúng tôi cam kết mang đến cho khách hàng những sản phẩm tốt nhất với giá cả cạnh tranh.</p>
@@ -26,36 +23,45 @@
 
     <section id="products">
         <h2>Sản Phẩm Nổi Bật</h2>
-        <div class="product-list">
-            <!-- Sản phẩm mẫu -->
-            <div class="product-item">
-                <img src="1.jpg" alt="Đèn đường lá">
-                <h3>Đèn đường lá</h3>
-                <p>Giá: 90.000 VNĐ</p>
-            </div>
-            <div class="product-item">
-                <img src="2.jpg" alt="Đèn âm trần">
-                <h3>Đèn âm trần</h3>
-                <p>Giá: 200.000 VNĐ</p>
-            </div>
-            <!-- Thêm các sản phẩm khác tương tự -->
+        <div id="productsContainer" class="product-list">
+            <!-- Các sản phẩm sẽ được tự động thêm vào đây bởi JavaScript -->
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Liên Hệ</h2>
-        <form id="contactForm">
-            <input type="text" id="name" placeholder="Họ tên" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <textarea id="message" placeholder="Tin nhắn" required></textarea>
-            <button type="submit" class="btn">Gửi Tin Nhắn</button>
-        </form>
-    </section>
+    <!-- Các phần khác của trang -->
 
-    <footer>
-        <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
-    </footer>
+</div>
 
-    <script src="scripts.js"></script>
+<footer>
+    <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
+</footer>
+
+<script>
+    // Tải dữ liệu từ file JSON và hiển thị sản phẩm
+    function loadProducts() {
+        fetch('data.json?v=' + new Date().getTime())
+            .then(response => response.json())
+            .then(data => {
+                const productsContainer = document.getElementById('productsContainer');
+                productsContainer.innerHTML = ''; // Xóa nội dung cũ
+
+                data.products.forEach(product => {
+                    const productItem = document.createElement('div');
+                    productItem.className = 'product-item';
+                    productItem.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>Giá: ${product.price}</p>
+                    `;
+                    productsContainer.appendChild(productItem);
+                });
+            })
+            .catch(error => console.error('Lỗi tải dữ liệu:', error));
+    }
+
+    // Gọi hàm để tải sản phẩm khi trang được tải
+    window.onload = loadProducts;
+</script>
+
 </body>
 </html>
