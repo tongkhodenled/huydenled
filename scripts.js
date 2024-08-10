@@ -1,5 +1,3 @@
-// scripts.js
-
 // Tải dữ liệu từ file JSON và hiển thị sản phẩm
 function loadProducts() {
     fetch('data.json?v=' + new Date().getTime())
@@ -24,7 +22,10 @@ function loadProducts() {
 }
 
 // Gọi hàm để tải sản phẩm khi trang được tải
-window.onload = loadProducts;
+window.onload = function() {
+    loadProducts();
+    updateNotificationCount();
+};
 
 // Mở modal
 function openModal(productName, productPrice) {
@@ -36,14 +37,18 @@ function openModal(productName, productPrice) {
 // Đóng modal
 var modal = document.getElementById('orderModal');
 var span = document.getElementsByClassName('close')[0];
+var adminPrompt = document.getElementById('adminPrompt');
+var notificationContent = document.getElementById('notificationContent');
 
 span.onclick = function() {
     modal.style.display = 'none';
+    adminPrompt.style.display = 'none';
 }
 
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target == modal || event.target == adminPrompt) {
         modal.style.display = 'none';
+        adminPrompt.style.display = 'none';
     }
 }
 
@@ -59,7 +64,8 @@ document.getElementById('orderForm').addEventListener('submit', function(event) 
         customerAddress: document.getElementById('customerAddress').value,
         productName: document.getElementById('productName').value,
         productPrice: document.getElementById('productPrice').value,
-        orderTime: new Date().toLocaleString('vi-VN') // Thời gian đặt hàng
+        orderTime: new Date().toLocaleString('vi-VN'),
+        downloaded: false // Đặt trạng thái đơn hàng là chưa tải xuống
     };
 
     orders.push(order);
@@ -68,7 +74,36 @@ document.getElementById('orderForm').addEventListener('submit', function(event) 
     // Ẩn modal và hiển thị thông báo cảm ơn
     modal.style.display = 'none';
     document.getElementById('thankYouMessage').style.display = 'block';
+
+    // Cập nhật nội dung thông báo và số lượng đơn hàng chưa tải xuống
+    document.getElementById('notificationText').textContent = 'Đơn hàng mới vừa được đặt!';
+    updateNotificationCount(); // Cập nhật số lượng đơn hàng chưa tải xuống
 });
+
+// Hiển thị prompt yêu cầu mật khẩu admin
+function showAdminPrompt() {
+    adminPrompt.style.display = 'block';
+}
+
+// Xác nhận mật khẩu admin và tải xuống đơn hàng
+function validateAdmin() {
+    const password = document.getElementById('adminPassword').value;
+    const correctPassword = 'admin123'; // Đặt mật khẩu của bạn ở đây
+
+    if (password === correctPassword) {
+        downloadOrders();
+        adminPrompt.style.display = 'none';
+    } else {
+        alert('Mật khẩu không chính xác.');
+    }
+}
+
+// Cập nhật số lượng đơn hàng chưa tải xuống
+function updateNotificationCount() {
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const notDownloadedOrders = orders.filter(order => !order.downloaded).length;
+    document.getElementById('notificationCount').textContent = notDownloadedOrders;
+}
 
 // Tải dữ liệu đơn hàng xuống dưới dạng file Excel
 function downloadOrders() {
@@ -84,4 +119,20 @@ function downloadOrders() {
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
+
+    // Đánh dấu các đơn hàng là đã tải xuống
+    orders.forEach(order => order.downloaded = true);
+    localStorage.setItem('orders', JSON.stringify(orders));
+
+    // Cập nhật số lượng đơn hàng chưa tải xuống
+    updateNotificationCount();
+}
+
+// Hiển thị hoặc ẩn thông báo khi nhấp vào hình chuông
+function toggleNotification() {
+    if (notificationContent.style.display === 'none' || notificationContent.style.display === '') {
+        notificationContent.style.display = 'block';
+    } else {
+        notificationContent.style.display = 'none';
+    }
 }
