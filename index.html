@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="styles.css">
     <script src="scripts.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <style>
+        /* Thêm CSS cho thông báo cảm ơn */
+        .thank-you-message {
+            display: none;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -31,6 +42,12 @@
 
     <!-- Thêm nút tải xuống đơn hàng -->
     <button id="downloadButton" onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
+
+    <!-- Thông báo cảm ơn -->
+    <div id="thankYouMessage" class="thank-you-message">
+        <h2>Cảm ơn quý khách đã đặt hàng!</h2>
+        <p>Chúng tôi sẽ liên hệ với quý khách trong thời gian sớm nhất.</p>
+    </div>
 
 </div>
 
@@ -102,7 +119,7 @@
         }
     }
 
-    // Lưu dữ liệu đơn hàng vào localStorage
+    // Lưu dữ liệu đơn hàng vào localStorage và hiển thị thông báo cảm ơn
     document.getElementById('orderForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -119,9 +136,10 @@
 
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
-        alert('Đơn hàng của bạn đã được lưu lại!');
 
+        // Ẩn modal và hiển thị thông báo cảm ơn
         modal.style.display = 'none';
+        document.getElementById('thankYouMessage').style.display = 'block';
     });
 
     // Tải dữ liệu đơn hàng xuống dưới dạng file Excel
