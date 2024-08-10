@@ -217,4 +217,23 @@ document.getElementById('orderForm').addEventListener('submit', function(event) 
 
     orders.push(order);
     localStorage.setItem('orders', JSON.stringify(orders));
-    alert('Đơn hàng của bạn đã
+    alert('Đơn hàng của bạn đã được lưu lại!');
+
+    modal.style.display = 'none';
+});
+
+// Tải dữ liệu đơn hàng xuống dưới dạng file Excel
+function downloadOrders() {
+    var orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    if (orders.length === 0) {
+        alert('Không có đơn hàng nào để tải xuống.');
+        return;
+    }
+
+    // Đảm bảo tiêu đề cột đúng với dữ liệu
+    var ws = XLSX.utils.json_to_sheet(orders, {header: ["customerName", "customerPhone", "customerAddress", "productName", "productPrice", "orderTime"]});
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Orders");
+    XLSX.writeFile(wb, "orders.xlsx");
+}
