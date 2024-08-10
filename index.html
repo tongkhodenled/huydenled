@@ -58,13 +58,12 @@
   </div>
 </div>
 
-<script>
 // Tải dữ liệu từ file JSON và hiển thị sản phẩm
 function loadProducts() {
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
-            const projectsContainer = document.querySelector('.projects');
+            const projectsContainer = document.getElementById('projectsContainer');
             projectsContainer.innerHTML = ''; // Xóa nội dung cũ
 
             data.products.forEach(product => {
@@ -84,8 +83,6 @@ function loadProducts() {
 
 // Gọi hàm để tải sản phẩm khi trang được tải
 window.onload = loadProducts;
-</script>
-
 
 // Mở modal
 function openModal(productName, productPrice) {
@@ -145,7 +142,3 @@ function downloadOrders() {
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
 }
-</script>
-
-</body>
-</html>
