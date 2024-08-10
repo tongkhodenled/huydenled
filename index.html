@@ -6,6 +6,7 @@
     <title>Huy Đèn Led</title>
     <link rel="stylesheet" href="styles.css">
     <script src="scripts.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -28,13 +29,30 @@
         </div>
     </section>
 
-    <!-- Các phần khác của trang -->
+    <!-- Thêm nút tải xuống đơn hàng -->
+    <button id="downloadButton" onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
 
 </div>
 
 <footer>
     <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
 </footer>
+
+<!-- Modal HTML -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Đặt Mua</h2>
+    <form id="orderForm">
+      <input type="text" id="customerName" placeholder="Họ tên" required><br><br>
+      <input type="text" id="customerPhone" placeholder="Số điện thoại" required><br><br>
+      <input type="text" id="customerAddress" placeholder="Địa chỉ" required><br><br>
+      <input type="hidden" id="productName">
+      <input type="hidden" id="productPrice">
+      <button type="submit">Đặt Mua</button>
+    </form>
+  </div>
+</div>
 
 <script>
     // Tải dữ liệu từ file JSON và hiển thị sản phẩm
@@ -52,6 +70,7 @@
                         <img src="${product.image}" alt="${product.name}">
                         <h3>${product.name}</h3>
                         <p>Giá: ${product.price}</p>
+                        <button onclick="openModal('${product.name}', '${product.price}')">Đặt Mua</button>
                     `;
                     productsContainer.appendChild(productItem);
                 });
@@ -61,6 +80,65 @@
 
     // Gọi hàm để tải sản phẩm khi trang được tải
     window.onload = loadProducts;
+
+    // Mở modal
+    function openModal(productName, productPrice) {
+        document.getElementById('orderModal').style.display = 'block';
+        document.getElementById('productName').value = productName;
+        document.getElementById('productPrice').value = productPrice;
+    }
+
+    // Đóng modal
+    var modal = document.getElementById('orderModal');
+    var span = document.getElementsByClassName('close')[0];
+
+    span.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Lưu dữ liệu đơn hàng vào localStorage
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+        var order = {
+            customerName: document.getElementById('customerName').value,
+            customerPhone: document.getElementById('customerPhone').value,
+            customerAddress: document.getElementById('customerAddress').value,
+            productName: document.getElementById('productName').value,
+            productPrice: document.getElementById('productPrice').value,
+            orderTime: new Date().toLocaleString('vi-VN') // Thời gian đặt hàng
+        };
+
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        alert('Đơn hàng của bạn đã được lưu lại!');
+
+        modal.style.display = 'none';
+    });
+
+    // Tải dữ liệu đơn hàng xuống dưới dạng file Excel
+    function downloadOrders() {
+        var orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+        if (orders.length === 0) {
+            alert('Không có đơn hàng nào để tải xuống.');
+            return;
+        }
+
+        // Đảm bảo tiêu đề cột đúng với dữ liệu
+        var ws = XLSX.utils.json_to_sheet(orders, {header: ["customerName", "customerPhone", "customerAddress", "productName", "productPrice", "orderTime"]});
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Orders");
+        XLSX.writeFile(wb, "orders.xlsx");
+    }
 </script>
 
 </body>
