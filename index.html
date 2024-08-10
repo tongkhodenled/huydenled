@@ -54,22 +54,28 @@
 <footer>
     <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
 </footer>
-
 <!-- Modal HTML -->
 <div id="orderModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Đặt Mua</h2>
-    <form id="orderForm">
-      <input type="text" id="customerName" placeholder="Họ tên" required><br><br>
-      <input type="text" id="customerPhone" placeholder="Số điện thoại" required><br><br>
-      <input type="text" id="customerAddress" placeholder="Địa chỉ" required><br><br>
-      <input type="hidden" id="productName">
-      <input type="hidden" id="productPrice">
-      <button type="submit">Đặt Mua</button>
-    </form>
-  </div>
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Đặt Mua</h2>
+        <form id="orderForm">
+            <input type="text" id="customerName" placeholder="Họ tên" required><br><br>
+            <input type="text" id="customerPhone" placeholder="Số điện thoại" required><br><br>
+            <input type="text" id="customerAddress" placeholder="Địa chỉ" required><br><br>
+            <input type="hidden" id="productName">
+            <input type="hidden" id="productPrice">
+            <button type="submit">Đặt Mua</button>
+        </form>
+    </div>
 </div>
+
+<!-- Thông báo cảm ơn -->
+<div id="thankYouMessage" class="thank-you-message">
+    <h2>Cảm ơn bạn đã đặt hàng!</h2>
+    <p>Chúng tôi sẽ liên hệ với bạn sớm nhất có thể.</p>
+</div>
+
 
 <script>
     // Tải dữ liệu từ file JSON và hiển thị sản phẩm
