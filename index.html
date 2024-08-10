@@ -17,6 +17,31 @@
             border-radius: 10px;
             margin-top: 20px;
         }
+        
+        /* CSS cho nút tải xuống với xác thực */
+        #adminAccess {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        #adminAccess input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        #adminAccess button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: #FFD700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #adminAccess button:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
@@ -40,8 +65,11 @@
         </div>
     </section>
 
-    <!-- Thêm nút tải xuống đơn hàng -->
-    <button id="downloadButton" onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
+    <!-- Thêm ô nhập mật khẩu và nút tải xuống -->
+    <div id="adminAccess">
+        <input type="password" id="adminPassword" placeholder="Nhập mật khẩu">
+        <button onclick="validateAdmin()">Tải Xuống Đơn Hàng</button>
+    </div>
 
     <!-- Thông báo cảm ơn -->
     <div id="thankYouMessage" class="thank-you-message">
@@ -54,6 +82,7 @@
 <footer>
     <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
 </footer>
+
 <!-- Modal HTML -->
 <div id="orderModal" class="modal">
     <div class="modal-content">
@@ -65,20 +94,23 @@
             <input type="text" id="customerAddress" placeholder="Địa chỉ" required><br><br>
             <input type="hidden" id="productName">
             <input type="hidden" id="productPrice">
-           <button type="submit" class="buy-button">Đặt Mua</button>
-
+            <button type="submit" class="buy-button">Đặt Mua</button>
         </form>
     </div>
 </div>
 
-<!-- Thông báo cảm ơn -->
-<div id="thankYouMessage" class="thank-you-message">
-    <h2>Cảm ơn bạn đã đặt hàng!</h2>
-    <p>Chúng tôi sẽ liên hệ với bạn sớm nhất có thể.</p>
-</div>
-
-
 <script>
+    function validateAdmin() {
+        const password = document.getElementById('adminPassword').value;
+        const correctPassword = 'admin123'; // Đặt mật khẩu của bạn ở đây
+
+        if (password === correctPassword) {
+            downloadOrders();
+        } else {
+            alert('Mật khẩu không chính xác.');
+        }
+    }
+
     // Tải dữ liệu từ file JSON và hiển thị sản phẩm
     function loadProducts() {
         fetch('data.json?v=' + new Date().getTime())
@@ -168,8 +200,3 @@
 
 </body>
 </html>
-<!-- Thêm ô nhập mật khẩu -->
-<div id="adminAccess">
-    <input type="password" id="adminPassword" placeholder="Nhập mật khẩu">
-    <button onclick="validateAdmin()">Tải Xuống Đơn Hàng</button>
-</div>
