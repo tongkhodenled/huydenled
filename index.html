@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huy Đèn Led</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="scripts.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <style>
         /* Thêm CSS cho thông báo cảm ơn */
@@ -17,33 +16,8 @@
             border-radius: 10px;
             margin-top: 20px;
         }
-        
-        /* CSS cho nút tải xuống với xác thực */
-        #adminAccess {
-            margin: 20px 0;
-            text-align: center;
-        }
-        
-        #adminAccess input {
-            padding: 10px;
-            font-size: 16px;
-        }
-        
-        #adminAccess button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #333;
-            color: #FFD700;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        #adminAccess button:hover {
-            background-color: #555;
-        }
-        
-        /* CSS cho hình chuông thông báo */
+
+        /* CSS cho hình chuông và thông báo */
         #notificationBell {
             position: fixed;
             top: 20px;
@@ -51,21 +25,54 @@
             font-size: 24px;
             cursor: pointer;
             z-index: 1000;
+            display: flex;
+            align-items: center;
         }
-        
-        /* CSS cho thông báo chuông */
+
+        #notificationCount {
+            background-color: #FF4500; /* Màu đỏ sẫm */
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
         #notificationContent {
             display: none;
             position: fixed;
             top: 60px;
             right: 20px;
             background-color: #fff;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             padding: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            border-radius: 5px;
             width: 200px;
+            border-radius: 5px;
+        }
+
+        /* CSS cho modal yêu cầu mật khẩu admin */
+        #adminPrompt {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        #adminPrompt .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            max-width: 90%;
+            position: relative;
         }
     </style>
 </head>
@@ -90,25 +97,21 @@
         </div>
     </section>
 
-    <!-- Thêm ô nhập mật khẩu và nút tải xuống -->
-    <div id="adminAccess">
-        <input type="password" id="adminPassword" placeholder="Nhập mật khẩu">
-        <button onclick="validateAdmin()">Tải Xuống Đơn Hàng</button>
-    </div>
+    <!-- Thêm nút tải xuống đơn hàng -->
+    <button id="downloadButton" onclick="showAdminPrompt()">Tải Xuống Đơn Hàng</button>
 
     <!-- Thông báo cảm ơn -->
     <div id="thankYouMessage" class="thank-you-message">
         <h2>Cảm ơn quý khách đã đặt hàng!</h2>
         <p>Chúng tôi sẽ liên hệ với quý khách trong thời gian sớm nhất.</p>
     </div>
-
 </div>
 
 <footer>
     <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
 </footer>
 
-<!-- Modal HTML -->
+<!-- Modal HTML cho đặt hàng -->
 <div id="orderModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -124,122 +127,24 @@
     </div>
 </div>
 
-<!-- Thêm hình chuông và thông báo -->
+<!-- Hình chuông thông báo -->
 <div id="notificationBell" onclick="toggleNotification()">
-    🔔
+    🔔 <span id="notificationCount">0</span>
 </div>
 <div id="notificationContent">
     <h3>Thông Báo</h3>
     <p id="notificationText"></p>
 </div>
 
-<script>
-    function validateAdmin() {
-        const password = document.getElementById('adminPassword').value;
-        const correctPassword = 'admin123'; // Đặt mật khẩu của bạn ở đây
-
-        if (password === correctPassword) {
-            downloadOrders();
-        } else {
-            alert('Mật khẩu không chính xác.');
-        }
-    }
-
-    function toggleNotification() {
-        const notificationContent = document.getElementById('notificationContent');
-        notificationContent.style.display = notificationContent.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Tải dữ liệu từ file JSON và hiển thị sản phẩm
-    function loadProducts() {
-        fetch('data.json?v=' + new Date().getTime())
-            .then(response => response.json())
-            .then(data => {
-                const productsContainer = document.getElementById('productsContainer');
-                productsContainer.innerHTML = ''; // Xóa nội dung cũ
-
-                data.products.forEach(product => {
-                    const productItem = document.createElement('div');
-                    productItem.className = 'product-item';
-                    productItem.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>Giá: ${product.price}</p>
-                        <button onclick="openModal('${product.name}', '${product.price}')">Đặt Mua</button>
-                    `;
-                    productsContainer.appendChild(productItem);
-                });
-            })
-            .catch(error => console.error('Lỗi tải dữ liệu:', error));
-    }
-
-    // Gọi hàm để tải sản phẩm khi trang được tải
-    window.onload = loadProducts;
-
-    // Mở modal
-    function openModal(productName, productPrice) {
-        document.getElementById('orderModal').style.display = 'block';
-        document.getElementById('productName').value = productName;
-        document.getElementById('productPrice').value = productPrice;
-    }
-
-    // Đóng modal
-    var modal = document.getElementById('orderModal');
-    var span = document.getElementsByClassName('close')[0];
-
-    span.onclick = function() {
-        modal.style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    // Lưu dữ liệu đơn hàng vào localStorage và hiển thị thông báo cảm ơn
-    document.getElementById('orderForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        var orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-        var order = {
-            customerName: document.getElementById('customerName').value,
-            customerPhone: document.getElementById('customerPhone').value,
-            customerAddress: document.getElementById('customerAddress').value,
-            productName: document.getElementById('productName').value,
-            productPrice: document.getElementById('productPrice').value,
-            orderTime: new Date().toLocaleString('vi-VN') // Thời gian đặt hàng
-        };
-
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-
-        // Ẩn modal và hiển thị thông báo cảm ơn
-        modal.style.display = 'none';
-        document.getElementById('thankYouMessage').style.display = 'block';
-
-        // Cập nhật nội dung thông báo
-        document.getElementById('notificationText').textContent = 'Đơn hàng mới vừa được đặt!';
-        toggleNotification(); // Hiển thị thông báo
-    });
-
-    // Tải dữ liệu đơn hàng xuống dưới dạng file Excel
-    function downloadOrders() {
-        var orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-        if (orders.length === 0) {
-            alert('Không có đơn hàng nào để tải xuống.');
-            return;
-        }
-
-        // Đảm bảo tiêu đề cột đúng với dữ liệu
-        var ws = XLSX.utils.json_to_sheet(orders, {header: ["customerName", "customerPhone", "customerAddress", "productName", "productPrice", "orderTime"]});
-        var wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Orders");
-        XLSX.writeFile(wb, "orders.xlsx");
-    }
-</script>
+<!-- Modal yêu cầu mật khẩu admin -->
+<div id="adminPrompt">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Nhập Mật Khẩu Admin</h2>
+        <input type="password" id="adminPassword" placeholder="Mật khẩu admin">
+        <button onclick="validateAdmin()">Xác Nhận</button>
+    </div>
+</div>
 
 </body>
 </html>
