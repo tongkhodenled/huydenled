@@ -3,30 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách sản phẩm</title>
+    <title>Huy Đèn Led</title>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        #about, #projects, #contact, #social-media {
+            margin: 20px 0;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .project-item {
+            flex: 1 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .project-item img {
+            width: 200px; /* Chiều rộng cố định */
+            height: auto; /* Chiều cao tự động theo tỷ lệ */
+        }
+        .project-item h3 {
+            margin: 10px 0;
+        }
+        .project-item p {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #e74c3c; /* Màu đỏ cho giá */
+        }
+        .project-item button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .modal {
+            display: none; /* Ẩn mặc định */
+            position: fixed; /* Định vị cố định */
+            z-index: 1; /* Vị trí trên cùng */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Kích hoạt cuộn khi cần */
+            background-color: rgb(0,0,0); /* Màu nền đen */
+            background-color: rgba(0,0,0,0.4); /* Độ mờ nền */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #downloadButton {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Danh sách sản phẩm</h1>
-    <div id="products"></div>
 
-    <script>
-        // Sử dụng Fetch API để tải dữ liệu từ file JSON
-        fetch('data.json')
-            .then(response => response.json()) // Chuyển đổi phản hồi sang JSON
-            .then(data => {
-                let productsDiv = document.getElementById('products');
-                data.products.forEach(product => {
-                    // Tạo một div mới cho mỗi sản phẩm
-                    let productDiv = document.createElement('div');
-                    productDiv.innerHTML = `
-                        <h2>${product.name}</h2>
-                        <p>Giá: ${product.price}</p>
-                        <img src="${product.image}" alt="${product.name}" width="200">
-                    `;
-                    productsDiv.appendChild(productDiv);
-                });
-            })
-            .catch(error => console.error('Error loading JSON data:', error));
-    </script>
-</body>
-</html>
+<header>
+    <h1>Huy Đèn Led</h1>
+    <p>Chuyên cung cấp sỉ lẻ đèn led cho cửa hàng đại lý công trình</p>
+    <p>Zalo: 0395886695</p>
+</header>
+
+<div class="container">
+    <section id="about">
+        <h2>Về Chúng Tôi</h2>
+        <p>Huy Đèn Led chuyên cung cấp các sản phẩm đèn led chất lượng cao cho cửa hàng, đại lý và công trình. Với kinh nghiệm nhiều năm trong ngành, chúng tôi cam kết mang đến cho khách hàng những sản phẩm tốt nhất với giá cả cạnh tranh.</p>
+    </section>
+
+    <section id="projects">
+        <h2>Các Dự Án</h2>
+        <p>Hình ảnh và video của các dự án tiêu biểu sẽ được hiển thị tại đây.</p>
+        <div class="projects">
+            <div class="project-item">
+                <img src="1.jpg" alt="Dự án 1">
+                <h3>Dự án 1</h3>
+                <p>Giá: 100.000 VNĐ</p>
+                <button onclick="openModal('Dự án 1', '100.000 VNĐ')">Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="2.jpg" alt="Dự án 2">
+                <h3>Dự án 2</h3>
+                <p>Giá: 200.000 VNĐ</p>
+                <button onclick="openModal('Dự án 2', '200.000 VNĐ')">Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="3.jpg" alt="Dự án 3">
+                <h3>Dự án 3</h3>
+                <p>Giá: 150.000 VNĐ</p>
+                <button onclick="openModal('Dự án 3', '150.000 VNĐ')">Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="4.jpg" alt="Dự án 4">
+                <h3>Dự án 4</h3>
+                <p>Giá: 180.000 VNĐ</p>
+                <button onclick="openModal('Dự án 4', '180.000 VNĐ')">Đặt Mua</button>
+            </div>
+            <div class="project-item">
+                <img src="6.jpg" alt="Dự án 6">
+                <h3>Dự án 6</h3>
+                <p>Giá: 250.000 VNĐ</p>
+                <button onclick="openModal('Dự án 6', '250.000 VNĐ')">Đặt Mua</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Liên Hệ</h2>
+        <form class="contact-form" action="mailto:email@example.com" method="post" enctype="text/plain">
+            <input type="text" name="name" placeholder="Tên của bạn" required>
+            <input type="email" name="email" placeholder="Email của bạn" required>
+            <textarea name="message" placeholder="Lời nhắn của bạn" rows="5" required></textarea>
+            <button type="submit">Gửi</button>
+        </form>
+    </section>
+
+    <section id="social-media">
+        <h3>Theo Dõi Chúng Tôi</h3>
+        <div class="social-media">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </section>
+
+    <!-- Thêm nút tải xuống đơn hàng -->
+    <button id="downloadButton" onclick="downloadOrders()">Tải Xuống Đơn Hàng</button>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 Huy Đèn Led. All Rights Reserved.</p>
+</footer>
+
+<!-- Modal HTML -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Đặt Mua</h2>
+    <form id="orderForm">
+      <input type="text" id="customerName" placeholder="Họ tên" required><br><br>
+      <input type="text" id="customerPhone" placeholder="Số điện thoại" required><br><br>
+      <input type="text" id="customerAddress" placeholder="Địa chỉ" required><br><br>
+      <input type="hidden" id="productName">
+      <input type="hidden" id="productPrice">
+      <button type="submit">Đặt Mua</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Mở modal
+function openModal(productName, productPrice) {
+  document.getElementById('orderModal').style.display = 'block';
+  document.getElementById('productName').value = productName;
+  document.getElementById('productPrice').value = productPrice;
+}
+
+// Đóng modal
+var modal = document.getElementById('orderModal');
+var span = document.getElementsByClassName('close')[0];
+
+span.onclick = function() {
+  modal.style.display = 'none';
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+}
+
+/
+// Lưu dữ liệu đơn hàng vào localStorage
+document.getElementById('orderForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    var order = {
+        customerName: document.getElementById('customerName').value,
+        customerPhone: document.getElementById('customerPhone').value,
+        customerAddress: document.getElementById('customerAddress').value,
+        productName: document.getElementById('productName').value,
+        productPrice: document.getElementById('productPrice').value,
+        orderTime: new Date().toLocaleString('vi-VN') // Thời gian đặt hàng
+    };
+
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    alert('Đơn hàng của bạn đã được lưu lại!');
+
+    modal.style.display = 'none';
+});
+
+// Tải dữ liệu đơn hàng xuống dưới dạng file Excel
+function downloadOrders() {
+    var orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    if (orders.length === 0) {
+        alert('Không có đơn hàng nào để tải xuống.');
+        return;
+    }
+
+    // Đảm bảo tiêu đề cột đúng với dữ liệu
+    var ws = XLSX.utils.json_to_sheet(orders, {header: ["customerName", "customerPhone", "customerAddress", "productName", "productPrice", "orderTime"]});
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Orders");
+    XLSX.writeFile(wb, "orders.xlsx");
