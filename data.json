@@ -1,34 +1,15 @@
-{
-  "products": [
+[
     {
-      "id": 1,
-      "name": "Đèn LED 1",
-      "price": "100.000 VNĐ",
-      "image": "1.jpg"
+        "id": 1,
+        "name": "Dự án 1",
+        "price": "100.000 VNĐ",
+        "image": "1.jpg"
     },
     {
-      "id": 2,
-      "name": "Đèn LED 2",
-      "price": "200.000 VNĐ",
-      "image": "2.jpg"
-    },
-    {
-      "id": 3,
-      "name": "Đèn LED 3",
-      "price": "150.000 VNĐ",
-      "image": "3.jpg"
-    },
-    {
-      "id": 4,
-      "name": "Đèn LED 4",
-      "price": "180.000 VNĐ",
-      "image": "4.jpg"
-    },
-    {
-      "id": 5,
-      "name": "Đèn LED 5",
-      "price": "250.000 VNĐ",
-      "image": "5.jpg"
+        "id": 2,
+        "name": "Dự án 2",
+        "price": "200.000 VNĐ",
+        "image": "2.jpg"
     }
-  ]
-}
+    // Thêm các sản phẩm khác ở đây
+]
