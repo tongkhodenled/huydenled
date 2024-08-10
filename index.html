@@ -59,23 +59,23 @@
 </div>
 
 <script>
-// Tải dữ liệu từ file JSON và hiển thị sản phẩm
+    // Tải dữ liệu từ file JSON và hiển thị sản phẩm
 function loadProducts() {
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
-            const projectsContainer = document.querySelector('.projects');
+            const projectsContainer = document.getElementById('projectsContainer');
             projectsContainer.innerHTML = ''; // Xóa nội dung cũ
 
             data.products.forEach(product => {
                 const projectItem = document.createElement('div');
                 projectItem.className = 'project-item';
-                projectItem.innerHTML = 
+                projectItem.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
                     <p>Giá: ${product.price}</p>
                     <button onclick="openModal('${product.name}', '${product.price}')">Đặt Mua</button>
-                ;
+                `;
                 projectsContainer.appendChild(projectItem);
             });
         })
@@ -84,8 +84,6 @@ function loadProducts() {
 
 // Gọi hàm để tải sản phẩm khi trang được tải
 window.onload = loadProducts;
-</script>
-
 
 // Mở modal
 function openModal(productName, productPrice) {
@@ -145,8 +143,3 @@ function downloadOrders() {
     XLSX.utils.book_append_sheet(wb, ws, "Orders");
     XLSX.writeFile(wb, "orders.xlsx");
 }
-</script>
-
-</body>
-</html>
-index.html như này.
