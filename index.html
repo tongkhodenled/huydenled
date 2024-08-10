@@ -59,26 +59,33 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Tải dữ liệu sản phẩm từ file JSON
-    fetch('products.json')
+// Tải dữ liệu từ file JSON và hiển thị sản phẩm
+function loadProducts() {
+    fetch('data.json')
         .then(response => response.json())
         .then(data => {
-            const container = document.getElementById('projectsContainer');
-            data.forEach(product => {
-                const item = document.createElement('div');
-                item.classList.add('project-item');
-                item.innerHTML = `
+            const projectsContainer = document.querySelector('.projects');
+            projectsContainer.innerHTML = ''; // Xóa nội dung cũ
+
+            data.products.forEach(product => {
+                const projectItem = document.createElement('div');
+                projectItem.className = 'project-item';
+                projectItem.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
                     <p>Giá: ${product.price}</p>
                     <button onclick="openModal('${product.name}', '${product.price}')">Đặt Mua</button>
                 `;
-                container.appendChild(item);
+                projectsContainer.appendChild(projectItem);
             });
         })
-        .catch(error => console.error('Lỗi khi tải sản phẩm:', error));
-});
+        .catch(error => console.error('Lỗi tải dữ liệu:', error));
+}
+
+// Gọi hàm để tải sản phẩm khi trang được tải
+window.onload = loadProducts;
+</script>
+
 
 // Mở modal
 function openModal(productName, productPrice) {
