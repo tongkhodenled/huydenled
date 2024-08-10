@@ -1,12 +1,12 @@
 {
   "products": [
     {
-      "name": "Dự án 1",
+      "name": "Đèn đường lá",
       "price": "100.000 VNĐ",
       "image": "1.jpg"
     },
     {
-      "name": "Dự án 2",
+      "name": "Đèn âm trần",
       "price": "200.000 VNĐ",
       "image": "2.jpg"
     },
